@@ -8,9 +8,15 @@ body {
   height: 100vh;
   display: grid;
   place-items: center;
+  font-family: 'Source Code Pro', monospace;
 }
 
 svg {
   width: 90vmin;
   height: 90vmin;
+  cursor: pointer;
+}
+
+p {
+  color: #1b1a16;
 }

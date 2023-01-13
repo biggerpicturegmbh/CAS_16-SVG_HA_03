@@ -42,6 +42,7 @@ let sfc32 = (a, b, c, d) => {
 };
 var fxrand = sfc32(...hashes);
 
+console.clear()
 console.log("Unique seed! Copy after URL: ?seed=" + fxhash)
 
 //const r = Math.random;
@@ -54,6 +55,13 @@ const ns = "http://www.w3.org/2000/svg";
 const svg = document.createElementNS(ns, "svg");
 svg.setAttribute("viewBox", `0 0 ${vbWidth} ${vbHeight}`);
 document.body.append(svg);
+
+// const divSeed = document.createElement("div")
+// document.body.append(divSeed);
+const pSeed = document.createElement("p");
+pSeed.setAttribute("id", "seed")
+pSeed.innerHTML = `Seed: ${fxhash}`
+document.body.append(pSeed);
 
 
 const colorfulls = [ 
@@ -117,9 +125,8 @@ function waveLines (wpTransX, wpOscil){
 let waveNoise = r()
 
 for (let i = 0; i < 2000; i++) {
-        waveLines((10*i+20)*waveNoise, (2*i+10)*waveNoise);
+        waveLines((10*i+20)*waveNoise, (6*i+10)*waveNoise);
       }
-
 
 
 
@@ -148,5 +155,5 @@ const click = (e) => {
         save(svg);
 };
 
-document.addEventListener("click", click);
+svg.addEventListener("click", click);
 
