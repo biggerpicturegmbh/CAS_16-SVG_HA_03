@@ -22,4 +22,5 @@ path {
 
 p {
   color: #1b1a16;
+  align-self: flex-start;
 }
