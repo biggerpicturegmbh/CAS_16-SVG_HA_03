@@ -14,8 +14,11 @@ body {
 svg {
   width: 90vmin;
   height: 90vmin;
-  cursor: pointer;
 }
+
+path {
+  transition: d 1s ease, fill 1s ease 0.5s;
+  }
 
 p {
   color: #1b1a16;

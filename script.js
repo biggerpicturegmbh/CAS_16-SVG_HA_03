@@ -1,5 +1,5 @@
 
-
+//--- Random mit fxhash ----
 let alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
 var fxhash =
         "oo" +
@@ -8,7 +8,7 @@ var fxhash =
                 .map((_) => alphabet[(Math.random() * alphabet.length) | 0])
                 .join("");
 
-
+//--- --> seed für URL ----
 const params = new URLSearchParams(location.search);
 if(params.has('seed')){
    const seed = params.get('seed');
@@ -16,7 +16,7 @@ if(params.has('seed')){
 }
 
 
-
+//--- Random mit fxhash ----
 let b58dec = (str) =>
         [...str].reduce(
                 (p, c) => (p * alphabet.length + alphabet.indexOf(c)) | 0,
@@ -42,6 +42,7 @@ let sfc32 = (a, b, c, d) => {
 };
 var fxrand = sfc32(...hashes);
 
+//--- --> seed in console zum kopieren ----
 console.clear()
 console.log("Unique seed! Copy after URL: ?seed=" + fxhash)
 
@@ -51,6 +52,8 @@ const r = fxrand;
 const vbWidth = 1000;
 const vbHeight = 1000;
 
+
+//--- SVG erstellen Basic ----
 const ns = "http://www.w3.org/2000/svg";
 const svg = document.createElementNS(ns, "svg");
 svg.setAttribute("viewBox", `0 0 ${vbWidth} ${vbHeight}`);
@@ -63,7 +66,8 @@ pSeed.setAttribute("id", "seed")
 pSeed.innerHTML = `Seed: ${fxhash}`
 document.body.append(pSeed);
 
-
+//--- Arrays Farbpallete  ----
+//--- https://coolors.co/e7eef1-1b1a16-d53829-ff541b-e6ae2e-80a25c-009f6c-387eff-4e22b6-ff2ea5 ---
 const colorfulls = [ 
         "#d53829", "#ff541b", "#e6ae2e", 
         "#80a25c", "#009f6c", "#387eff", 
@@ -73,16 +77,18 @@ const colorAchro = [
         "#e7eef1", "#1b1a16"
     ]
 
+//--- Funktion für zufällige Auswahl im Array  ----
 const pick = (d) => d[Math.floor(r() * d.length)];
 
+//--- Rechteck für BG  ----
 const bg = document.createElementNS(ns, "rect");
         svg.append(bg);
         bg.setAttribute("width", vbWidth);
         bg.setAttribute("height", vbHeight);
         bg.setAttribute("fill", pick(colorAchro))
 
+//--- Funktion für waveLines  ----
 function waveLines (wpTransX, wpOscil){
-
         const wave = document.createElementNS(ns, "path");
         svg.append(wave);
 
@@ -119,20 +125,17 @@ function waveLines (wpTransX, wpOscil){
                 wave.setAttribute("fill", "none");
                 wave.setAttribute("stroke", pick(colorfulls));
                 wave.setAttribute("stroke-width", `${2*(waveNoise+0.5)}`);
-
 }
 
+//--- Array für alle Waves --> umschreiben für formale Programmierung  ----
 let waveNoise = r()
-
+let waveRange = r() * (12   - 2) + 2;
 for (let i = 0; i < 2000; i++) {
-        waveLines((10*i+20)*waveNoise, (6*i+10)*waveNoise);
+        waveLines((12*i+20)*waveNoise, (waveRange*i+10)*waveNoise);
       }
 
 
-
-
 // ---- Download SVG ------
-
 const mime = {
         type: "image/svg+xml",
 };
@@ -151,9 +154,17 @@ const save = (svg) => {
         download(new Blob([str], mime));
 };
 
-const click = (e) => {
+const keyHandlerSave = (event) => {
+    if (event.key === "s") {
         save(svg);
+    }
 };
 
-svg.addEventListener("click", click);
+document.addEventListener("keypress", keyHandlerSave);
 
+// ---- Reload auf Taste "space" ------
+const keyHandlerReload = (event) => {
+    location.reload()
+};
+
+document.addEventListener("keypress", keyHandlerReload );
